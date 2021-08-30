@@ -1,0 +1,23 @@
+1630344544994	geckodriver	INFO	Listening on 127.0.0.1:45735
+1630344544997	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileEbM8bc"
+[GFX1-]: glxtest: libEGL missing
+[GFX1-]: glxtest: libEGL missing
+1630344545539	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileEbM8bc/search.json.mozlz4", (void 0)))
+1630344551200	Marionette	INFO	Listening on port 43107
+1630344551251	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://files-grouvee-com.b-cdn.net/js/jquery/jquery-1.9.1.min.397754ba49e9.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript warning: https://files-grouvee-com.b-cdn.net/js/jquery/jquery-1.9.1.min.397754ba49e9.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript warning: https://pagead2.googlesyndication.com/bg/TmHKmzNcEIQHiD9bxwAx5GJ7ufkV5pqy_sm1YHn63jg.js line 1 > eval line 6002 > eval, line 1: WebGL warning: <Create>: WebglAllowWindowsNativeGl:false restricts context creation on this system.
+JavaScript warning: https://pagead2.googlesyndication.com/bg/TmHKmzNcEIQHiD9bxwAx5GJ7ufkV5pqy_sm1YHn63jg.js line 1 > eval line 6002 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* WebglAllowWindowsNativeGl:false restricts context creation on this system. ()
+* Exhausted GL driver options. (FEATURE_FAILURE_WEBGL_EXHAUSTED_DRIVERS)
+JavaScript warning: https://files-grouvee-com.b-cdn.net/js/jquery/jquery-1.9.1.min.397754ba49e9.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+JavaScript warning: https://pagead2.googlesyndication.com/bg/TmHKmzNcEIQHiD9bxwAx5GJ7ufkV5pqy_sm1YHn63jg.js line 1 > eval line 3893 > eval, line 1: WebGL warning: <Create>: WebglAllowWindowsNativeGl:false restricts context creation on this system.
+JavaScript warning: https://pagead2.googlesyndication.com/bg/TmHKmzNcEIQHiD9bxwAx5GJ7ufkV5pqy_sm1YHn63jg.js line 1 > eval line 3893 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* WebglAllowWindowsNativeGl:false restricts context creation on this system. ()
+* Exhausted GL driver options. (FEATURE_FAILURE_WEBGL_EXHAUSTED_DRIVERS)
+1630344564345	Marionette	INFO	Stopped listening on port 43107
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
