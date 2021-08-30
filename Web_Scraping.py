@@ -16,7 +16,7 @@ def Buscar_game(df):
     #Criar pasta temporaria para armazenar imagens
     criar_pasta()
 
-    nav = webdriver.Firefox(executable_path='/home/alizon/projetos/Scraping_Real/webdriver/geckodriver')
+    nav = webdriver.Firefox(executable_path=f'webdriver/geckodriver')
 
     # obter lista de game
     game = df['Item'].to_list()
