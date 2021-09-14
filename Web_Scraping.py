@@ -1,14 +1,12 @@
 from genericpath import isdir
 from pandas.core.indexes.base import Index
-from selenium import webdriver
-from selenium.webdriver.common import keys
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.options import Options
 import time
 import pandas as pd
 import urllib 
 import os
 import shutil
+import requests
+from bs4 import BeautifulSoup
 
 # Buscar games
 def Buscar_game(df):
@@ -16,35 +14,39 @@ def Buscar_game(df):
     #Criar pasta temporaria para armazenar imagens
     criar_pasta()
 
-    nav = webdriver.Firefox(executable_path=f'webdriver/geckodriver')
-
     # obter lista de game
     game = df['Item'].to_list()
-    #Site para Buscar Games
-    nav.get('https://www.grouvee.com/search/?q=BLACK+OPS+II')
-    for g in game:
-        # digitar no elemento de busca
-        nav.find_element_by_xpath('//*[@id="id_q"]'
-        ).send_keys(str(g))
 
-        # Pesquisar
-        nav.find_element_by_xpath('//*[@id="id_q"]'
-        ).send_keys(Keys.ENTER)
+    for g in game:
+        # Parametros de Pesuisa
+        pesquisa = {'q': g}
+
+        # Requisição da pagina
+        page = requests.get("https://www.grouvee.com/search/", params=pesquisa)
+        time.sleep(2)
+
+        # Transformar em objeto  BeautifulSoup
+        soup_page = BeautifulSoup(page.text, 'html.parser')
 
         try:
-            time.sleep(3)
-            # obter imagem da capa
-            capa_url = nav.find_element_by_xpath('/html/body/div[2]/div[2]/div[1]/div[1]/div[1]/a/img'
-            ).get_attribute('src')
-            
+            # Procurar Div da Img
+            div = soup_page.find(class_='box-art')
+
+            # Procurar tag da Img
+            img = div.find('a').find('img')
+
+            # Obter Link da Img
+            link_img = img.get('src')
+
+
             # Salvar imagem
-            urllib.request.urlretrieve(capa_url, 'img/{}.jpg'.format(g))
-        except Exception:
+            urllib.request.urlretrieve(link_img, 'img/{}.jpg'.format(g))
+
+        except:
             pass
-
-    nav.quit()
+    
     Planilha(df)
-
+    
 # Criar Planilha
 def Planilha(df):
 
