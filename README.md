@@ -1,4 +1,4 @@
-# WebScraping_Games
+# WebScraping_Games com Selenium
 
 Este projeto foi construído baseado em uma das funções de trabalho de um amigo, 
 vale ressaltar que o projeto está adaptado a ambiente totalmente fictício, e não sera utilizado comercialmente.
