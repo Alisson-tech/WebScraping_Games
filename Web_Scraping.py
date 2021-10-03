@@ -15,7 +15,7 @@ def Buscar_game(df):
     criar_pasta()
 
     # obter lista de game
-    game = df['Item'].to_list()
+    game = df['Jogo'].to_list()
 
     for g in game:
         # Parametros de Pesuisa
@@ -42,9 +42,10 @@ def Buscar_game(df):
             # Salvar imagem
             urllib.request.urlretrieve(link_img, 'img/{}.jpg'.format(g))
 
+
         except:
             pass
-    
+
     Planilha(df)
     
 # Criar Planilha
@@ -71,7 +72,7 @@ def Planilha(df):
     worksheet.set_column('F:F', 25, data_format)
 
 
-    game = df['Item'].to_list()
+    game = df['Jogo'].to_list()
     count = 1
     # Colocar imagem na planilha se ela existir
     # Se não existir colocar '?'
