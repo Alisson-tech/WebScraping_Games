@@ -18,17 +18,18 @@ def Buscar_game(df):
     game = df['Jogo'].to_list()
 
     for g in game:
-        # Parametros de Pesuisa
-        pesquisa = {'q': g}
-
-        # Requisição da pagina
-        page = requests.get("https://www.grouvee.com/search/", params=pesquisa)
-        time.sleep(2)
-
-        # Transformar em objeto  BeautifulSoup
-        soup_page = BeautifulSoup(page.text, 'html.parser')
-
         try:
+            # Parametros de Pesuisa
+            pesquisa = {'q': g}
+
+            # Requisição da pagina
+            page = requests.get("https://www.grouvee.com/search/", params=pesquisa)
+            time.sleep(2)
+
+            # Transformar em objeto  BeautifulSoup
+            soup_page = BeautifulSoup(page.text, 'html.parser')
+
+    
             # Procurar Div da Img
             div = soup_page.find(class_='box-art')
 

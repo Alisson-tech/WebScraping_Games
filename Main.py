@@ -14,20 +14,31 @@ import pandas as pd
 import time
 import Web_Scraping
 
-
+# Classe para executar a tarefa em uma thread
+# impede o travamento da interface
+# Executa a função de web scraping em paralelo a interface
 class Tarefa(QObject):
+        # Sinal progress bar
         bar = pyqtSignal(int)
+        # sinal da função de web scraping
         status = pyqtSignal()
+        # Sinal de finalização 
         finished = pyqtSignal()
 
+        # Construtor com os dados
+        def __init__(self, df):
+                super().__init__()
+                self.data = df
+
+        # Barra de progresso
         def progress_bar(self):
                 for i in range(101):
                         time.sleep(0.03)
                         self.bar.emit(i)
                 self.finished.emit()
-        
-        def run(self, df):
-                Web_Scraping.Buscar_game(df)
+        # função Web Scraping
+        def run(self):
+                Web_Scraping.Buscar_game(self.data)
                 self.status.emit()
 
 class Ui_MainWindow(object):
@@ -229,7 +240,7 @@ class Ui_MainWindow(object):
                 self.tableView.setColumnWidth(1,280)
                 self.tableView.setColumnWidth(2,100)
                 self.tableView.setColumnWidth(3,50)
-                self.tableView.setHorizontalHeaderLabels(('Marca', 'Jogo', 'Plataforma', 'QTD'))
+                self.tableView.setHorizontalHeaderLabels(('Distribuidora', 'Jogo', 'Plataforma', 'QTD'))
                 header = self.tableView.horizontalHeader()
                 header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
                 header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
@@ -266,7 +277,7 @@ class Ui_MainWindow(object):
                 self.pushButton_Pes.setMinimumSize(QtCore.QSize(150, 40))
                 self.pushButton_Pes.setMaximumSize(QtCore.QSize(100, 16777215))
                 font = QtGui.QFont()
-                font.setFamily("DejaVu Serif")
+                font.setFamily("DejaVu")
                 font.setBold(True)
                 font.setWeight(75)
                 self.pushButton_Pes.setFont(font)
@@ -341,7 +352,7 @@ class Ui_MainWindow(object):
                 QtCore.QMetaObject.connectSlotsByName(MainWindow)
         
         #Funções
-        
+        # Validar Campos
         def validar(self):
                 marca = None
                 jogo = None
@@ -365,7 +376,8 @@ class Ui_MainWindow(object):
                         self.frame_error.show()
                 else:
                         self.add_table(marca, jogo, Plat, qtd)
-        
+
+        # Adicionar dados a tabela
         def add_table(self, Marca: str, Jogo: str, Plat:str, QTD:int):
                 rowCount = self.tableView.rowCount()
                 self.tableView.insertRow(rowCount)
@@ -374,11 +386,16 @@ class Ui_MainWindow(object):
                 self.tableView.setItem(rowCount, 2, QtWidgets.QTableWidgetItem(str(Plat)))
                 self.tableView.setItem(rowCount, 3, QtWidgets.QTableWidgetItem(str(QTD)))
 
+        # Deletar dados da tabela
         def del_table(self):
-                indices = self.tableView.selectionModel().selectedRows() 
-                for index in indices:
-                        self.tableView.removeRow(index.row())
+                try:
+                        indices = self.tableView.selectionModel().selectedRows() 
+                        for index in indices:
+                                self.tableView.removeRow(index.row())
+                except:
+                        pass
         
+        # obter valores da tabela 
         def get_value(self):
 
                 lista =  [[]]
@@ -393,19 +410,19 @@ class Ui_MainWindow(object):
                 if(lista):
                         self.pushButton_Pes.hide()
                         self.progressBar.show()
-                        df = pd.DataFrame(data= lista, columns=headers)
-
-                        self.load_bar(df)
+                        data = pd.DataFrame(data= lista, columns=headers)
+                        time.sleep(0.05)
+                        self.load_bar(data)
         
-        def load_bar(self, df):
-                self.thread = QThread()
-                self.task = Tarefa()
-
+        # função que executa as tarefas em uma thread e carrega a progressbar
+        def load_bar(self, data):
                 
                 self.thread = QThread()
-                self.task = Tarefa()
+                self.task = Tarefa(df=data)
+                
+                # Sinais da Thread
                 self.task.moveToThread(self.thread)
-                self.thread.started.connect(lambda: self.task.run(df))
+                self.thread.started.connect(self.task.run)
                 self.task.status.connect(self.task.progress_bar)
                 self.task.bar.connect(self.set_bar)
                 self.task.finished.connect(self.thread.quit)
